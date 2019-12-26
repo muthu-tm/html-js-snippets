@@ -16,7 +16,7 @@
 
         td {
             border: 1px solid black;
-            width: 30px;
+            width: 50px;
             align-content: center;
             text-align: center;
         }
@@ -48,11 +48,7 @@
             var val_length = val.length
             var stringArr = val.split('')
             if (val_length == 1) {
-                var index = alphabets.indexOf(val)
-                if (index + 1 > 25) {
-                    return alphabets[0]
-                }
-                return alphabets[index + 1]
+                return getNextAlphabet(alphabets, val)
             } else {
                 var nextval = ""
                 nextval = getNextValue(val.slice(1, val_length))
