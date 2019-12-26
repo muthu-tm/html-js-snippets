@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <style>
+        .button {
+            height: 30px;
+            width: 110px;
+            font-size: 14px;
+            text-align: center;
+            background-color: #008CBA;
+            border-radius: 8px;
+            margin-left: 10px;
+        }
+        td {
+            border: 1px solid black;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js">
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#ajaxBtn').click(function () {
+                var start = $("#start").val()
+                var row = $("#row").val()
+                var column = $("#columnn").val()
+
+                var arr = [start]
+                var nextVal = start
+                for (var i = 1; i < row*column; i++) {
+                    nextVal = getNextValue(nextVal)
+                    arr.push(nextVal)
+                }
+                createTable(arr, column)
+            });
+        });
+
+        function getNextValue(val) {
+            var alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('')
+            var val_length = val.length
+            if (val_length == 1) {
+                var index = alphabets.indexOf(val)
+                if (index+1 > 25) {
+                    return alphabets[0]
+                }
+                return alphabets[index+1]
+            }
+        }
+
+        function createTable(arr, column) {
+            // Create a new table
+            var posString = '<br><br><table>';
+            posString += "<tbody> <tr>";
+
+            // Populate the table
+            var colmcount = 0;
+            for (var i = 0, len = arr.length; i < len; i++) {
+                var cellData = arr[i]
+
+                if (colmcount == column) {
+                    posString += "</tr> <tr><td>";
+                    posString += cellData + '</td>';
+                    colmcount = 0;
+                } else {
+                    posString += "<td>" + cellData + '</td>';
+                }
+
+                colmcount++;
+
+            }
+            posString += '</tbody></table>';
+            // var innerhtml = "<object type='text/html' data='" +posString+ "'></object>"
+            document.getElementById("content").innerHTML='<object type="text/html" data=' +posString+ '></object>';
+        }
+    </script>
+</head>
+
+<body>
+    <h1> Table Filler Using Alphabets</h1>
+    <div class="w3-row-padding">
+        <div class="w3-third">
+            <input class="w3-input w3-border" type="text" id="start" placeholder="Column to start">
+        </div>
+        <div class="w3-third">
+            <input class="w3-input w3-border" type="text" id="row" placeholder="No of rows">
+        </div>
+        <div class="w3-third">
+            <input class="w3-input w3-border" type="text" id="columnn" placeholder="No of columns">
+        </div>
+    </div>
+
+    </br></br>
+    <input type="button" id="ajaxBtn" value="Submit" class="button" />
+    <div id ="content"> </div>
+</body>
+
+</html>

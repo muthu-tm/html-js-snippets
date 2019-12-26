@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <style>
+        .button {
+            height: 30px;
+            width: 110px;
+            font-size: 14px;
+            text-align: center;
+            background-color: #008CBA;
+            border-radius: 8px;
+        }
+
+        td {
+            border: 1px solid black;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js">
+    </script>
+    <script type="text/javascript">
+        // Make the actual CORS request.
+        function makeCorsRequest() {
+            // This is a sample server that supports CORS.
+            var url = $("#url-value").val()
+
+            var xhr = createCORSRequest('GET', url);
+            if (!xhr) {
+                alert('CORS not supported');
+                return;
+            }
+
+            // Response handlers.
+            xhr.onload = function () {
+                var text = xhr.responseXML.body.innerText;
+                // console.log(text)
+                var words = text.split(' ')
+                console.log("Length", words.length)
+                getFrequency(text)
+            };
+
+            xhr.onerror = function () {
+                alert('Woops, there was an error making the request.');
+            };
+            xhr.responseType = "document";
+            xhr.send();
+        }
+
+        function createCORSRequest(method, url) {
+            var xhr = new XMLHttpRequest();
+            if ("withCredentials" in xhr) {
+
+                // Check if the XMLHttpRequest object has a "withCredentials" property.
+                // "withCredentials" only exists on XMLHTTPRequest2 objects.
+                xhr.open(method, url, true);
+
+            } else if (typeof XDomainRequest != "undefined") {
+
+                // Otherwise, check if XDomainRequest.
+                // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
+                xhr = new XDomainRequest();
+                xhr.open(method, url);
+
+            } else {
+
+                // Otherwise, CORS is not supported by the browser.
+                xhr = null;
+
+            }
+            return xhr;
+        }
+
+        function getFrequency(string) {
+            // var cleanString = string.replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()\r\n\t]/g, " "),
+            var cleanString = string.replace(/[\r\n\t]+/g, " "),
+                words = cleanString.split(' '),
+                frequencies = {},
+                word, frequency, i;
+
+            for (i = 0; i < words.length; i++) {
+                word = words[i];
+                frequencies[word] = frequencies[word] || 0;
+                frequencies[word]++;
+            }
+
+            // words = Object.keys(frequencies);
+            console.log(JSON.stringify(frequencies))
+            createTable(frequencies);
+        }
+
+        function createTable(frequencies) {
+            var keys = Object.keys(frequencies)
+
+            // Create a new table
+            var posString = '<br><br><table id="Counts">';
+            posString += "<tbody> <tr>";
+
+            // Populate the table
+            var column = 3;
+            var colmcount = 0;
+            for (var i = 0, len = keys.length; i < len; i++) {
+                var count = frequencies[keys[i]]
+                var cellData = keys[i] + " - " + count
+
+                if (colmcount == column) {
+                    posString += "</tr> <tr><td>";
+                    posString += cellData + '</td>';
+                    colmcount = 0;
+                } else {
+                    posString += "<td>" + cellData + '</td>';
+                }
+
+                colmcount++;
+
+            }
+            posString += '</tbody></table>';
+
+            document.getElementById("content").innerHTML='<object type="text/html" data='+posString+' ></object>';
+        }
+
+    </script>
+</head>
+
+<body>
+    <h1> WebPage Words Count Finder</h1>
+    <input type="text" id="url-value" class="w3-input" style="width: 30%;" placeholder="URL to crawl"> </br></br>
+    <input type="button" id="ajaxBtn" value="Submit" class="button" onclick="makeCorsRequest()" />
+    </br>
+    <div id ="content"> </div>
+</body>
+
+</html>
