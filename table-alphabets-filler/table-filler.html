@@ -29,7 +29,7 @@
         $(document).ready(function () {
 
             $('#ajaxBtn').click(function () {
-                var start = $("#start").val()
+                var start = $("#start").val().toUpperCase()
                 var row = $("#row").val()
                 var column = $("#columnn").val()
 
@@ -46,6 +46,7 @@
         function getNextValue(val, start) {
             var alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('')
             var val_length = val.length
+            var stringArr = val.split('')
             if (val_length == 1) {
                 var index = alphabets.indexOf(val)
                 if (index + 1 > 25) {
@@ -53,19 +54,12 @@
                 }
                 return alphabets[index + 1]
             } else {
-                var stringArr = val.split('')
-                var nextval = stringArr[0]
-                if (alphabets.indexOf(stringArr[0]) == 25) {
-                    nextval = alphabets[0]
-                }
-
-                for (var i = 1; i < val_length; i++) {
-                    var index = alphabets.indexOf(stringArr[i])
-                    if (index + 1 > 25) {
-                        nextval = nextval.slice(0, nextval.length - 1) + getNextAlphabet(alphabets, nextval.slice(nextval.length - 1, nextval.length)) + alphabets[0]
-                    } else {
-                        nextval += alphabets[index + 1]
-                    }
+                var nextval = ""
+                nextval = getNextValue(val.slice(1, val_length))
+                if (nextval == alphabets[0]) {
+                    nextval = getNextAlphabet(alphabets, stringArr[0]) + nextval
+                } else {
+                    nextval = stringArr[0] + nextval
                 }
                 return nextval
             }
@@ -102,7 +96,6 @@
 
             }
             posString += '</tbody></table>';
-            // var innerhtml = "<object type='text/html' data='" +posString+ "'></object>"
             document.getElementById("content").innerHTML = '<object type="text/html" data=' + posString + '></object>';
         }
     </script>
@@ -112,7 +105,7 @@
     <h1> Table Filler Using Alphabets</h1>
     <div class="w3-row-padding">
         <div class="w3-third">
-            <input class="w3-input w3-border" type="text" id="start" placeholder="Column to start">
+            <input class="w3-input w3-border" type="text" id="start" style="text-transform:uppercase" placeholder="Column to start">
         </div>
         <div class="w3-third">
             <input class="w3-input w3-border" type="text" id="row" placeholder="No of rows">
