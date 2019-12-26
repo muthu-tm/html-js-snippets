@@ -14,3 +14,8 @@ E.g 1) if enter A, 3 and 2 then it will return A, B, C, D, E, F and display A B 
 | D | E | F |
 
 E.g 2) if enter AZ, 3 and 3 then it will return AZ, BA, BB, BC, BD, BE, BF, BG, BH and display AZ BA BB and BC BD BE and BF BG BH.
+
+| AZ | BA | BB |
+|:--:|---:|:--:|
+| BC | BD | BE |
+| BF | BG | BH |
