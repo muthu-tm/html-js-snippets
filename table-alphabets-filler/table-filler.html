@@ -101,13 +101,13 @@
     <h1> Table Filler Using Alphabets</h1>
     <div class="w3-row-padding">
         <div class="w3-third">
-            <input class="w3-input w3-border" type="text" id="start" style="text-transform:uppercase" placeholder="Column to start">
+            <input class="w3-input w3-border" type="text" id="start" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)" style="text-transform:uppercase" placeholder="Column to start">
         </div>
         <div class="w3-third">
-            <input class="w3-input w3-border" type="text" id="row" placeholder="No of rows">
+            <input class="w3-input w3-border" type="number" id="row" placeholder="No of rows">
         </div>
         <div class="w3-third">
-            <input class="w3-input w3-border" type="text" id="columnn" placeholder="No of columns">
+            <input class="w3-input w3-border" type="number" id="columnn" placeholder="No of columns">
         </div>
     </div>
 
